@@ -38,6 +38,10 @@ FIO_VERSION="$(fio --version 2>&1)"
 IOPING_VERSION="$(ioping --version 2>&1)"
 DD_VERSION="$(dd --version 2>&1 | head -n 1)"
 TARGET_MOUNT_POINT="${TARGET_MOUNT_POINT}"
+ENTROPY_LEVEL="$(cat /proc/sys/kernel/random/entropy_avail)"
+LOAD="$(cat /proc/loadavg)"
+UPTIME="$(cat /proc/uptime)"
+
 EOF
 
     if [ -f /etc/os-release ]; then
@@ -48,13 +52,24 @@ EOF
         lsb_release -a >> "${OUTPUT_DIR}/lsb.env" || true
     fi
 
+    cat /proc/cpuinfo > "${OUTPUT_DIR}/cpuinfo.log"
+    cat /proc/meminfo > "${OUTPUT_DIR}/meminfo.log"
+
+    if command -v lscpu >/dev/null 2>&1; then
+        lscpu > "${OUTPUT_DIR}/lscpu.log"
+    fi
+
+    if command -v lspci >/dev/null 2>&1; then
+        lspci > "${OUTPUT_DIR}/lspci.log"
+    fi
+
     # disk info
     if command -v df >/dev/null 2>&1; then
-        df -a >> "${OUTPUT_DIR}/df.log"
+        df -a > "${OUTPUT_DIR}/df.log"
     fi
 
     if command -v mount >/dev/null 2>&1; then
-        mount -a >> "${OUTPUT_DIR}/mount.log"
+        mount -a > "${OUTPUT_DIR}/mount.log"
     fi
 
     if command -v findmnt >/dev/null 2>&1; then
@@ -66,7 +81,7 @@ EOF
     fi
 
     if command -v udevadm >/dev/null 2>&1; then
-        udevadm info --export --name="${TARGET_MOUNT_POINT}" >> "${OUTPUT_DIR}/udevadm.log" || true
+        udevadm info --export --name="${TARGET_MOUNT_POINT}" > "${OUTPUT_DIR}/udevadm.log" || true
     fi
 }
 

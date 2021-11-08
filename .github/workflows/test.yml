@@ -13,7 +13,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y fio ioping
+          sudo apt-get install -y fio ioping shellcheck
 
       - name: CPU probe
         run: |
@@ -22,6 +22,10 @@ jobs:
           free -h
           mount
 
-      - name: Run tests
+      - name: Shellcheck
         run: |
-          time ./iotest.sh
+          shellcheck iotest.sh
+
+      # - name: Run
+      #   run: |
+      #     time ./iotest.sh

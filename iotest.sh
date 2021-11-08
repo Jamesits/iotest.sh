@@ -69,7 +69,7 @@ EOF
     fi
 
     if command -v mount >/dev/null 2>&1; then
-        mount -a > "${OUTPUT_DIR}/mount.log"
+        mount > "${OUTPUT_DIR}/mount.log"
     fi
 
     if command -v findmnt >/dev/null 2>&1; then

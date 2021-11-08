@@ -17,6 +17,7 @@ jobs:
 
       - name: CPU probe
         run: |
+          set -x
           lscpu
           free -h
           mount

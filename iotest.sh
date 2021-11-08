@@ -15,8 +15,6 @@ function SLEEP() {
     sleep "${SLEEP_SECS}"
 }
 
-set +x
-
 >&2 echo "[+] Preparing report directory..."
 mkdir -p "${OUTPUT_DIR}"
 
@@ -45,12 +43,13 @@ SLEEP
 
 # dd 1G
 >&2 echo "[*] dd large block zero"
-2>&1 dd if=/dev/zero of="${TARGET_FILE}" bs=1G count=1 oflag=direct | tee -a "${OUTPUT_DIR}/dd-zero-large.log"
+2>&1 dd if=/dev/zero of="${TARGET_FILE}" bs=32M count=32 oflag=direct | tee -a "${OUTPUT_DIR}/dd-zero-large.log"
 sync
 SLEEP
 
+# note: /dev/urandom can only be read in 32M trunks
 >&2 echo "[*] dd large block random"
-2>&1 dd if=/dev/urandom of="${TARGET_FILE}" bs=1G count=1 oflag=direct | tee -a "${OUTPUT_DIR}/dd-urandom-large.log"
+2>&1 dd if=/dev/urandom of="${TARGET_FILE}" bs=32M count=32 oflag=direct | tee -a "${OUTPUT_DIR}/dd-urandom-large.log"
 sync
 SLEEP
 

@@ -146,7 +146,7 @@ mkdir -p "${OUTPUT_DIR}"
 >&2 echo "[+] Report will be located at: ${OUTPUT_DIR}"
 
 >&2 echo "[*] Pre-creating test file..."
-fallocate -l 4G "${TARGET_FILE}"
+fallocate --posix -l 4G "${TARGET_FILE}"
 sync
 
 collect_machine_info

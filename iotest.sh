@@ -33,7 +33,7 @@ function collect_machine_info() {
 HOSTNAME="$(cat /proc/sys/kernel/hostname)"
 UNAME="$(uname -a)"
 KERNEL="$(uname -r)"
-KERNEL_CMDLINE=$(catr /proc/cmdline)
+KERNEL_CMDLINE=$(cat /proc/cmdline)
 TIMESTAMP="${CURRENT_TIMESTAMP}"
 FIO_VERSION="$(fio --version 2>&1)"
 IOPING_VERSION="$(ioping --version 2>&1)"
